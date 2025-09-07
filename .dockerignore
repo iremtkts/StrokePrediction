@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+*.gz
+*.zip
+*.tar
+*.ipynb
+.DS_Store
+.env
+.venv/
+venv/
+.git/
+.gitignore
