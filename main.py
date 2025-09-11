@@ -4,12 +4,19 @@ import joblib
 import pandas as pd
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field, conint, confloat
+from fastapi.middleware.cors import CORSMiddleware
 
 MODEL_PATH = os.getenv("MODEL_PATH", "models/stroke_model_calibrated.pkl")
 
 app = FastAPI(title="Stroke Predictor", version="1.0.0")
 
-
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],          
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 try:
     artifact = joblib.load(MODEL_PATH)
     if isinstance(artifact, dict) and "model" in artifact:
@@ -41,6 +48,11 @@ class Patient(BaseModel):
     bmi: confloat(ge=5, le=100)
     smoking_status: conint(ge=-1, le=2)
     ever_married: conint(ge=0, le=1)
+
+
+@app.get("/")
+def root():
+    return {"ok": True, "try": ["/health", "/docs"]}
 
 @app.get("/health")
 def health():

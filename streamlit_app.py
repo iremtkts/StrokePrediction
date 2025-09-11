@@ -11,7 +11,7 @@ st.set_page_config(page_title="Stroke Risk Predictor", page_icon="🩺", layout=
 st.title(" Stroke Risk Predictor")
 st.caption("Streamlit interface with FastAPI + Uvicorn backend")
 
-DEFAULT_API_URL = "http://localhost:8000"
+DEFAULT_API_URL = "https://stroke-prediction-h8qs.onrender.com"
 API_URL = st.sidebar.text_input("🔗 API URL", os.getenv("API_URL", DEFAULT_API_URL)).rstrip("/")
 PREDICT_URL = f"{API_URL}/predict"
 HEALTH_URL = f"{API_URL}/health"
@@ -92,7 +92,7 @@ if submitted:
             with c1:
                 st.metric("Stroke Probability (model)", f"{proba*100:.2f}%")
             with c2:
-                st.metric("Predicted Class (backend, 0.5 threshold)", "1 (There is risk)" if pred_backend == 1 else "0 (No Risk")
+                st.metric("Predicted Class (backend, 0.5 threshold)", "1 (There is risk)" if pred_backend == 1 else "0 (No Risk)")
 
             st.write("Class decision based on threshold slider (UI): **{}**".format("1 (There is risk)" if pred_ui == 1 else "0 (No Risk)"))
             st.progress(min(max(proba, 0.0), 1.0))
